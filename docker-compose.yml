@@ -1,0 +1,25 @@
+version: "3.7"
+
+services:
+  hadoop-spark:
+    image: pjfanning/docker-spark-jdk8:1.6.2
+    hostname: hadoop-spark
+    ports:
+      - "8088:8088"
+      - "8042:8042"
+      - "4040:4040"
+      - "50070:50070"
+    command: >
+      -d
+    
+  jupyter-pyspark:
+    image: jupyter/pyspark-notebook
+    ports:
+      - "8888:8888"
+    environment: 
+      - YARN_CONF_DIR=/config-remote
+      - HADOOP_CONF_DIR=/config-remote
+      - HADOOP_USER_NAME=root
+    volumes:
+      - ./config:/config-remote
+      - ./notebooks:/home/jovyan/
